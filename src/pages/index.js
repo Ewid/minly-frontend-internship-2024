@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import MovieList from '../components/MovieList';
 import NavBar from '../components/NavBar';
 import styles from './index.module.css';

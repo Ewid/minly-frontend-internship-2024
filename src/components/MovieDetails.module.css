@@ -1,0 +1,75 @@
+/* src/components/MovieDetails.module.css */
+.movieDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.posterAndTrailer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.moviePoster {
+  width: 48%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.trailer {
+  width: 68%;
+  max-width: 750px;
+}
+
+.trailer iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.movieInfo {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+}
+
+.movieInfo h1 {
+  margin-bottom: 10px;
+}
+
+.movieInfo p {
+  margin: 5px 0;
+}
+
+.details p {
+  margin: 5px 0;
+}
+
+.castContainer {
+  margin-top: 20px;
+}
+
+.castList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.castMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.castMember img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}

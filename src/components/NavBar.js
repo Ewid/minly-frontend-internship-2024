@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styles from './NavBar.module.css';
-import { Box, InputBase, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import MovieList from './MovieList';
+import { Box, InputBase } from '@mui/material';
+import Link from 'next/link';
 
 const NavBar = ({ onSearch }) => {
   const [search, setSearchQuery] = useState('');
@@ -13,46 +12,34 @@ const NavBar = ({ onSearch }) => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    if (search == '') {
-      return MovieList;
-    } else {
-      fetch(`http://localhost:3001/movies?search=${search}`)
-        .then((response) => response.json())
-        .then((data) => {
-          onSearch(data);
-        })
-        .catch((error) =>
-          console.error('Error fetching search results:', error)
-        );
-    }
+    fetch(`http://localhost:3001/movies?search=${search}`)
+      .then((response) => response.json())
+      .then((data) => {
+        onSearch(data);
+      })
+      .catch((error) => console.error('Error fetching search results:', error));
   };
 
   return (
     <div className={styles.navbar}>
-      <Box className={styles.logo}>MMDB</Box>
+      <Box className={styles.logo}>
+        <Link href="/">MMDB</Link>
+      </Box>
       <Box
         component="form"
         onSubmit={handleSearchSubmit}
         className={styles.searchContainer}
       >
-        <Box>
-          <SearchIcon
-            style={{
-              height: 20,
-              width: 20,
-              marginRight: 370,
-            }}
-          />
-          <InputBase
-            placeholder="Search…"
-            style={{
-              right: 350,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-            value={search}
-            onChange={handleSearchChange}
-          />
-        </Box>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: styles.inputRoot,
+            input: styles.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+          value={search}
+          onChange={handleSearchChange}
+        />
       </Box>
     </div>
   );

@@ -62,7 +62,7 @@ const MovieList = ({ searchResults }) => {
       </Box>
       <Box className={styles.movieList}>
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.uuid} movie={movie} />
         ))}
       </Box>
       {!searchResults && (
