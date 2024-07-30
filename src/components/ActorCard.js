@@ -1,23 +1,27 @@
-// src/components/ActorCard.js
-import React from 'react';
-import styles from './ActorCard.module.css';
+import Link from 'next/link'
+import React from 'react'
+import styles from '../components/ActorCard.module.css'
+export default function ActorCard({movie}) {
+    console.log('sss',movie);
+  return <>
 
-const ActorCard = ({ actor }) => {
-  return (
+  {movie.movieActor.map((movie)=><Link className={`${styles.textDecoration}`}href={`/actors/${movie.actor.uuid}`} passHref>
     <div className={styles.actorCard}>
       <img
-        src={actor.picture}
-        alt={actor.first_name}
+        src={movie.actor.picture}
+        alt={movie.actor.first_name}
         className={styles.actorImage}
       />
       <div className={styles.actorInfo}>
         <h3
           className={styles.actorName}
-        >{`${actor.first_name} ${actor.last_name}`}</h3>
-        <p className={styles.actorRole}>{actor.role}</p>
+        >{`${movie.actor.first_name} ${movie.actor.last_name}`}</h3>
+        <p className={styles.actorRole}>{movie.characterName}</p>
       </div>
     </div>
-  );
-};
+    </Link>)}
+   
+  
+  </>
+}
 
-export default ActorCard;

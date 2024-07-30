@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 const MovieCard = ({ movie }) => {
   return (
-    <Link href={`/movies/${movie.id}`} passHref>
+    <Link className={`${styles.textDecoration}`}href={`/movies/${movie.id}`} passHref>
       <Box component="a" className={styles.movieCard}>
         <img
           src={movie.poster}

@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../components/MovieDetails.module.css'; // Adjust path if necessary
+import ActorCard from '@/components/ActorCard';
 
 const MovieDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const [movie, setMovie] = useState(null);
-
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:3001/movies/${id}`)
@@ -59,7 +59,9 @@ const MovieDetails = () => {
           <p><strong>Duration:</strong> {movie.duration}</p>
           <p><strong>Genres:</strong> {movie.genres.join(', ')}</p>
         </div>
-        <div className={styles.castContainer}>
+
+        <ActorCard movie={movie}/>
+        {/* <div className={styles.castContainer}>
           <strong>Cast:</strong>
           <div className={styles.castList}>
             {movie.actors && movie.actors.length > 0 ? (
@@ -67,13 +69,14 @@ const MovieDetails = () => {
                 <div key={index} className={styles.castMember}>
                   <img src={actor.picture} alt={actor.first_name} />
                   <p>{actor.first_name} {actor.last_name}</p>
+                  <p>{actor.characterName}</p>
                 </div>
               ))
             ) : (
               <p>N/A</p>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

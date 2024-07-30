@@ -25,6 +25,9 @@
   justify-content: center;
   border-radius: 8px;
 }
+.textDecoration{
+  text-decoration: none;
+}
 
 .movieDetails {
   padding: 4px;
