@@ -14,10 +14,14 @@
   
 
   .header {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    line-height: 36px;
     display: flex;
     flex-direction: row;
     background-color:#F7F8FC;
     margin-left: 110px;
+    
   }
   
   

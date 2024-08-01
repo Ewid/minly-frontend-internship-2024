@@ -2,30 +2,30 @@ import React from 'react';
 import styles from './Pagination.module.css';
 import { Box } from '@mui/material';
 
-const Pagination = ({ page, lastPage, setPage }) => {
+const Pagination = ({ currentPage, pagesCount, setCurrentPage }) => {
   const handlePrev = () => {
-    if (page > 1) setPage(page - 1);
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   const handleNext = () => {
-    if (page < lastPage) setPage(page + 1);
+    if (currentPage < pagesCount) setCurrentPage(currentPage + 1);
   };
 
   return (
     <Box className={styles.pagination}>
-      <button onClick={handlePrev} disabled={page <= 1}>
+      <button onClick={handlePrev} disabled={currentPage <= 1}>
         Prev
       </button>
-      {[...Array(lastPage).keys()].map((num) => (
+      {[...Array(pagesCount).keys()].map((num) => (
         <button
           key={num}
-          className={num + 1 === page ? styles.active : ''}
-          onClick={() => setPage(num + 1)}
+          className={num + 1 === currentPage ? styles.active : ''}
+          onClick={() => setCurrentPage(num + 1)}
         >
           {num + 1}
         </button>
       ))}
-      <button onClick={handleNext} disabled={page >= lastPage}>
+      <button onClick={handleNext} disabled={currentPage >= pagesCount}>
         Next
       </button>
     </Box>

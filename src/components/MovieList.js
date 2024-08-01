@@ -4,18 +4,26 @@ import styles from './MovieList.module.css';
 import { Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import Pagination from './Pagination';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { LIST_FILTERS } from './constants';
+
+const filterOptions = [
+  { value: LIST_FILTERS.RELEASE_DATE_ASC, label: 'Release Date Ascending' },
+  { value: LIST_FILTERS.RELEASE_DATE_DESC, label: 'Release Date Descending' },
+  { value: LIST_FILTERS.AVERAGE_RATING_ASC, label: 'Rating Ascending' },
+  { value: LIST_FILTERS.AVERAGE_RATING_DESC, label: 'Rating Descending' },
+];
 
 const MovieList = ({ searchResults }) => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [sort, setSortField] = useState('average_rating');
-  const [order, setSortOrder] = useState('desc');
+  const [sortOrder, setSortOrder] = useState('average_rating-desc');
 
   useEffect(() => {
     if (searchResults) {
       setMovies(searchResults);
     } else {
+      const [sort, order] = sortOrder.split('-');
       fetch(
         `http://localhost:3001/movies?page=${page}&sort=${sort}&order=${order}`
       )
@@ -26,11 +34,10 @@ const MovieList = ({ searchResults }) => {
         })
         .catch((error) => console.error('Error fetching movies:', error));
     }
-  }, [page, sort, order, searchResults]);
+  }, [page, sortOrder, searchResults]);
 
-  const handleSortChange = (field, order) => {
-    setSortField(field);
-    setSortOrder(order);
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
   };
 
   return (
@@ -40,23 +47,16 @@ const MovieList = ({ searchResults }) => {
         <FormControl variant="outlined" className={styles.sortControl}>
           <InputLabel>Sort by</InputLabel>
           <Select
-            value={`${sort}-${order}`}
-            onChange={(event) => {
-              console.log(event.target.value);
-              handleSortChange(
-                event.target.value.split('-')[0],
-                event.target.value.split('-')[1]
-              );
-            }}
+            value={sortOrder}
+            onChange={handleSortChange}
             startAdornment={<FilterListIcon />}
             label="Sort by"
           >
-            <MenuItem value="release_date-asc">Release Date Ascending</MenuItem>
-            <MenuItem value="release_date-desc">
-              Release Date Descending
-            </MenuItem>
-            <MenuItem value="average_rating-asc">Rating Ascending</MenuItem>
-            <MenuItem value="average_rating-desc">Rating Descending</MenuItem>
+            {filterOptions.map((filter) => (
+              <MenuItem key={filter.value} value={filter.value}>
+                {filter.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Box>
@@ -66,7 +66,7 @@ const MovieList = ({ searchResults }) => {
         ))}
       </Box>
       {!searchResults && (
-        <Pagination page={page} lastPage={lastPage} setPage={setPage} />
+        <Pagination currentPage={page} pagesCount={lastPage} setCurrentPage={setPage} />
       )}
     </Box>
   );

@@ -1,33 +1,46 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './NavBar.module.css';
-import { Box, InputBase } from '@mui/material';
+import { Box, InputBase, Typography } from '@mui/material';
 import Link from 'next/link';
+import debounce from 'lodash/debounce';
 
 const NavBar = ({ onSearch }) => {
-  const [search, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  
+
+  const handleDebounceSearch = useCallback(
+    debounce((searchQuery) => {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      fetch(`${baseUrl}/movies?search=${searchQuery}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            onSearch(data);
+          } else {
+            onSearch([]); 
+          }
+        })
+        .catch(() => {
+          onSearch([]); 
+        });
+    }, 500),
+[onSearch]
+  );
 
   const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    fetch(`http://localhost:3001/movies?search=${search}`)
-      .then((response) => response.json())
-      .then((data) => {
-        onSearch(data);
-      })
-      .catch((error) => console.error('Error fetching search results:', error));
+    const { value } = event.target;
+    setSearchQuery(value);
+    handleDebounceSearch(value);
   };
 
   return (
     <div className={styles.navbar}>
-      <Box className={styles.logo}>
+      <Typography className={styles.logo}>
         <Link href="/">MMDB</Link>
-      </Box>
+      </Typography>
       <Box
         component="form"
-        onSubmit={handleSearchSubmit}
+        onSubmit={(e) => e.preventDefault()}
         className={styles.searchContainer}
       >
         <InputBase
@@ -37,7 +50,7 @@ const NavBar = ({ onSearch }) => {
             input: styles.inputInput,
           }}
           inputProps={{ 'aria-label': 'search' }}
-          value={search}
+          value={searchQuery}
           onChange={handleSearchChange}
         />
       </Box>

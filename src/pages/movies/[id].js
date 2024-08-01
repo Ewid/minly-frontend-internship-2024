@@ -1,8 +1,9 @@
-// src/pages/movies/[id].js
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../../components/MovieDetails.module.css'; // Adjust path if necessary
+import styles from '../../components/MovieDetails.module.css'; 
 import ActorCard from '@/components/ActorCard';
+import { Box, CircularProgress } from '@mui/material';
+
 
 const MovieDetails = () => {
   const router = useRouter();
@@ -20,8 +21,13 @@ const MovieDetails = () => {
   }, [id]);
 
   if (!movie) {
-    return <div>Loading...</div>;
+    return (
+      <Box className={styles.loadingContainer}>
+        <CircularProgress />
+      </Box>
+    );
   }
+
 
   return (
     <div className={styles.movieDetailsContainer}>
@@ -61,22 +67,6 @@ const MovieDetails = () => {
         </div>
 
         <ActorCard movie={movie}/>
-        {/* <div className={styles.castContainer}>
-          <strong>Cast:</strong>
-          <div className={styles.castList}>
-            {movie.actors && movie.actors.length > 0 ? (
-              movie.actors.map((actor, index) => (
-                <div key={index} className={styles.castMember}>
-                  <img src={actor.picture} alt={actor.first_name} />
-                  <p>{actor.first_name} {actor.last_name}</p>
-                  <p>{actor.characterName}</p>
-                </div>
-              ))
-            ) : (
-              <p>N/A</p>
-            )}
-          </div>
-        </div> */}
       </div>
     </div>
   );

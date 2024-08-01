@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../components/ActorDetails.module.css'; 
 import Link from 'next/link';
+import { Box, CircularProgress } from '@mui/material';
 
 const ActorDetails = () => {
   const router = useRouter();
@@ -20,7 +21,11 @@ const ActorDetails = () => {
   }, [uuid]);
 
   if (!actor) {
-    return <div>Loading...</div>;
+    return (
+      <Box className={styles.loadingContainer}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (

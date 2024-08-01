@@ -1,4 +1,3 @@
-/* src/components/MovieDetails.module.css */
 .movieDetailsContainer {
   display: flex;
   flex-direction: column;
@@ -73,3 +72,11 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;}
+
+  
